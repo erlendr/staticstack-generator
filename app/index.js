@@ -3,7 +3,18 @@ var generators = require('yeoman-generator');
 module.exports = generators.Base.extend({
   init: function() {
     this['msDestination'] = 'tmp';
-    this['msMetadataOptions'] = 'options.yml';
+    this['msMetadataOptions'] = 'options.yaml';
+
+    this.on('end', function() {
+      this.installDependencies({
+        bower: false,
+        npm: true,
+        skipInstall: this.options['skip-install'] || this.options.s,
+        callback: function () {
+          this.log('Done!');
+        }.bind(this)
+      });
+    });
   },
   prompting: function() {
     var done = this.async();
@@ -38,7 +49,13 @@ module.exports = generators.Base.extend({
       done();
     });
   },
+  src: function() {
+    this.mkdir('src');
+    this.template('_src/_options.yaml', 'src/options.yaml');
+    this.template('_src/_index.md', 'src/index.md');
+  },
   build: function() {
+
     this.template('_build.js', 'build.js');
   },
   templates: function() {
@@ -53,10 +70,11 @@ module.exports = generators.Base.extend({
   package: function() {
     this.template('_package.json', 'package.json');
   },
-  installingMetalsmith: function() {
-    this.log('Installing Metalsmith and plugins...');
+  installingDependencies: function() {
+    this.log('Installing Metalsmith, Handlebars and plugins...');
     this.npmInstall(
       [
+      'handlebars',
       'metalsmith',
       'metalsmith-slug',
       'metalsmith-title',
