@@ -35,7 +35,7 @@ module.exports = generators.Base.extend({
     });
   },
   readme: function() {
-    this.template('README.md', 'README.md');
+    this.template('_README.md', 'README.md');
   },
   package: function() {
     this.template('_package.json', 'package.json');
