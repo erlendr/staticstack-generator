@@ -1,2 +1,2 @@
-# staticstack-generator
+# generator-staticstack
 Yeoman generator for Staticstack
