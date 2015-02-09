@@ -1,6 +1,10 @@
 var generators = require('yeoman-generator');
 
 module.exports = generators.Base.extend({
+  init: function() {
+    this['msDestination'] = 'tmp';
+    this['msMetadataOptions'] = 'options.yml';
+  },
   prompting: function() {
     var done = this.async();
     
@@ -33,6 +37,15 @@ module.exports = generators.Base.extend({
       }
       done();
     });
+  },
+  build: function() {
+    this.template('_build.js', 'build.js');
+  },
+  templates: function() {
+    this.mkdir('templates');
+    this.template('_templates/_home.hbs', 'templates/home.hbs');
+    this.template('_templates/_partials/_header.hbs', 'templates/partials/header.hbs');
+    this.template('_templates/_partials/_footer.hbs', 'templates/partials/footer.hbs');
   },
   readme: function() {
     this.template('_README.md', 'README.md');
