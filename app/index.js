@@ -3,15 +3,42 @@ var generators = require('yeoman-generator');
 module.exports = generators.Base.extend({
   prompting: function() {
     var done = this.async();
-    this.prompt({
+    
+    var prompts = [{
       type    : 'input',
-      name    : 'name',
-      message : 'Your project name',
-      default: this.appname
-    }, function(answers) {
-      this.log(answers.name);
+      name    : 'msTitle',
+      message : 'Site Title',
+      default : this.appname
+    }, {
+      type    : 'input',
+      name    : 'msDesc',
+      message : 'Site Description',
+      default : 'Staticstack-powered site'
+    }, {
+      type    : 'input',
+      name    : 'msAuthor',
+      message : 'Author name',
+      default : this.user.git.name() || 'Metal Smith'
+    },
+    {
+      type    : 'input',
+      name    : 'msGitRepository',
+      message : 'Git repository URL',
+      default : ''
+    }];
+
+    this.prompt(prompts, function(answers) {
+      for(var key in answers) {
+        this[key] = answers[key];
+      }
       done();
-    }.bind(this));
+    });
+  },
+  readme: function() {
+    this.template('README.md', 'README.md');
+  },
+  package: function() {
+    this.template('_package.json', 'package.json');
   },
   installingMetalsmith: function() {
     this.log('Installing Metalsmith and plugins...');
