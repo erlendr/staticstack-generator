@@ -21,7 +21,8 @@ npm install -g generator-staticstack
 
 For now, clone the repo and do:
 
-```
+```bash
+npm install
 npm link
 ```
 
