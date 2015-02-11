@@ -55,7 +55,6 @@ module.exports = generators.Base.extend({
     this.template('_src/_index.md', 'src/index.md');
   },
   build: function() {
-
     this.template('_build.js', 'build.js');
   },
   templates: function() {
@@ -64,26 +63,32 @@ module.exports = generators.Base.extend({
     this.template('_templates/_partials/_header.hbs', 'templates/partials/header.hbs');
     this.template('_templates/_partials/_footer.hbs', 'templates/partials/footer.hbs');
   },
+  writing: function () {
+    //Shell: Config for running build.js
+    this.gruntfile.insertConfig(
+      'shell', 
+      ' { dev: { command: "node build.js development" }, dist: { command: "node build.js production" } }');
+
+    //Default task
+    this.gruntfile.registerTask('default', ['shell:dev']);
+
+    //Load NPM tasks
+    this.gruntfile.loadNpmTasks('grunt-contrib-uglify');
+    this.gruntfile.loadNpmTasks('grunt-contrib-clean');
+    this.gruntfile.loadNpmTasks('grunt-shell');
+    this.gruntfile.loadNpmTasks('grunt-sass');
+    this.gruntfile.loadNpmTasks('grunt-contrib-watch');
+    this.gruntfile.loadNpmTasks('grunt-browser-sync');
+    this.gruntfile.loadNpmTasks('grunt-contrib-connect');
+    this.gruntfile.loadNpmTasks('grunt-contrib-jshint');
+    this.gruntfile.loadNpmTasks('grunt-contrib-compress');
+    this.gruntfile.loadNpmTasks('grunt-contrib-copy');
+    this.gruntfile.loadNpmTasks('grunt-aws-s3');
+  },
   readme: function() {
     this.template('_README.md', 'README.md');
   },
   package: function() {
     this.template('_package.json', 'package.json');
-  },
-  installingDependencies: function() {
-    this.log('Installing Metalsmith, Handlebars and plugins...');
-    this.npmInstall(
-      [
-      'handlebars',
-      'metalsmith',
-      'metalsmith-slug',
-      'metalsmith-title',
-      'metalsmith-drafts',
-      'metalsmith-metadata',
-      'metalsmith-markdown',
-      'metalsmith-templates',
-      'metalsmith-permalinks',
-      'metalsmith-filemetadata'
-      ], { 'saveDev': true })
   }
 });
