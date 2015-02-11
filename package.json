@@ -22,5 +22,7 @@
   "dependencies": {
     "yeoman-generator": "^0.18.8"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "shelljs": "^0.3.0"
+  }
 }
