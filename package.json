@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/erlendr/generator-staticstack",
   "dependencies": {
-    "yeoman-generator": "^0.18.8"
+    "yeoman-generator": "^5.0.0"
   },
   "devDependencies": {
     "shelljs": "^0.3.0"
